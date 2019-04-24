@@ -21,7 +21,8 @@ exec ros -Q -- $0 "$@"
 ;; CL-MARKUP - https://github.com/arielnetworks/cl-markup
 ;; Postmodern - https://github.com/marijnh/Postmodern
 
-(ql:quickload '(:cl-markup :jonathan :postmodern :snooze :uiop :woo) :silent t)
+(ql:quickload '(:cl-markup :jonathan :postmodern :snooze :trivia :uiop :woo) :silent t)
+(use-package :trivia)
 
 
 (load "./helpers/starts-with.lisp")
@@ -37,12 +38,20 @@ exec ros -Q -- $0 "$@"
   `(:|id| ,id :|randomNumber| ,(postmodern:query (:select 'randomnumber :from 'world :where (:= 'id id)) :single!)))
 
 (defun ensure-integer-is-between-one-and-five-hundreds (n)
-  (declare (integer n))
-  (if (< n 1)
-    (values 1 nil)
-    (if (> n 500)
-      (values 500 nil)
-      (values n t))))
+  ;; (declare (integer n))
+  (match n
+    ((guard n (integerp n))
+     (if (< n 1)
+      (values 1 nil)
+      (if (> n 500)
+        (values 500 nil)
+        (values n t))))
+    ((guard n (stringp n))
+     (let ((n (handler-case
+                (parse-integer n)
+                (error (c) (values 1 c)))))
+       (ensure-integer-is-between-one-and-five-hundreds n)))
+    (otherwise (values 1 nil))))
 
 (defun get-some-random-integers-between-one-and-ten-thousand (n)
   (declare (integer n))
