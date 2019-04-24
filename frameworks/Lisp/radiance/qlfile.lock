@@ -1,0 +1,24 @@
+("quicklisp" .
+ (:class qlot.source.ql:source-ql-all
+  :initargs (:distribution "http://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
+  :version "2019-03-07"))
+("jonathan" .
+ (:class qlot.source.ql:source-ql
+  :initargs (:project-name "jonathan" :distribution "http://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
+  :version "ql-2019-03-07"))
+("postmodern" .
+ (:class qlot.source.ql:source-ql
+  :initargs (:project-name "postmodern" :distribution "http://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
+  :version "ql-2019-03-07"))
+("woo" .
+ (:class qlot.source.ql:source-ql
+  :initargs (:project-name "woo" :distribution "http://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
+  :version "ql-2019-03-07"))
+("radiance" .
+ (:class qlot.source.ql:source-ql
+  :initargs (:project-name "radiance" :distribution "http://dist.tymoon.eu/shirakumo.txt" :%version :latest)
+  :version "ql-2019.03.30_07-20-31-GMT"))
+("radiance-contribs" .
+ (:class qlot.source.ql:source-ql
+  :initargs (:project-name "radiance-contribs" :distribution "http://dist.tymoon.eu/shirakumo.txt" :%version :latest)
+  :version "ql-2019.03.30_07-20-31-GMT"))

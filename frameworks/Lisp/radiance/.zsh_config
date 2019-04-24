@@ -1,0 +1,2 @@
+alias ros='qlot exec ros -S .'
+alias rove='qlot exec rove'

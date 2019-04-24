@@ -1,0 +1,13 @@
+; meta (:version 1.0 :package "QUICKLISP-QUICKSTART")
+((:interfaces (:admin . "r-simple-admin") (:auth . "r-simple-auth")
+  (:ban . "r-simple-ban") (:cache . "r-simple-cache")
+  (:data-model . "r-simple-model") (:database . "i-postmodern")
+  (:logger . "i-verbose") (:profile . "r-simple-profile")
+  (:rate . "r-simple-rate") (:server . "i-woo")
+  (:session . "r-simple-sessions") (:user . "r-simple-users"))
+ (:versions
+  . [hash-table equal ("radiance-core" :|2.0.1|) ("i-verbose" :|1.0.0|)
+     ("i-woo" :|1.1.0|) ("r-clip" :|1.0.0|)
+     ("r-simple-errors" :|1.0.0|)])
+ (:domains "lvh.me" "localhost") (:port . 8080) (:startup :r-simple-errors)
+ (:routes))
