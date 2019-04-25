@@ -41,13 +41,26 @@ FROM roswell AS builder
 RUN apt-get update -q \
     && apt-get install --no-install-recommends -q -y \
          build-essential \
+         expect \
          libev-dev \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /woo
-ADD  . .
+COPY radiance-bootstrap.lisp radiance-bootstrap.sh radiance-bootstrap-2.sh ./
 
-RUN ros build radiance.ros
+RUN /usr/bin/expect -f radiance-bootstrap.sh
+
+RUN rm /woo/config/default/i-hunchentoot/* \
+    && rmdir /woo/config/default/i-hunchentoot
+COPY config/default/i-postmodern/i-postmodern.conf.lisp /woo/config/default/i-postmodern/i-postmodern.conf.lisp
+COPY config/default/i-woo/i-woo.conf.lisp /woo/config/default/i-woo/i-woo.conf.lisp
+COPY config/default/radiance-core/radiance-core.conf.lisp /woo/config/default/radiance-core/radiance-core.conf.lisp
+COPY modules/tfb /woo/modules/tfb
+
+RUN /usr/bin/expect -f radiance-bootstrap-2.sh
+
+RUN rm /woo/quicklisp/dists/quicklisp/archives/* \
+    && rm /woo/quicklisp/dists/shirakumo/archives/* \
+    && rm /woo/quicklisp/tmp/*
 
 
 FROM roswell
@@ -58,10 +71,10 @@ RUN apt-get update -q \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /woo
-COPY --from=builder /woo/radiance .
 
-RUN ["chmod", "+x", "./woo"]
+COPY --from=builder /root/.cache/common-lisp /root/.cache/common-lisp
+COPY --from=builder /woo /woo
 
 EXPOSE 8080
 
-CMD ./radiance --worker $(nproc) --address 0.0.0.0 --port 8080
+CMD ros run -- --script start.lisp
