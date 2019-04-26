@@ -10,6 +10,10 @@
         <th>id</th>
         <th>message</th>
       </tr>
+      <tr iterate="fortunes">
+        <th lquery="(text id)">ID OF FORTUNE</th>
+        <th lquery="(text message)">MESSAGE OF FORTUNE</th>
+      </tr>
     </table>
   </body>
 </html>

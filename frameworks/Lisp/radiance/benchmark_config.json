@@ -1,17 +1,17 @@
 {
-    "framework": "woo",
+    "framework": "radiance",
     "tests": [
         {
             "default": {
                 "plaintext_url": "/plaintext",
-                "json_url": "/json",
+                "json_url": "/api/json",
                 "fortune_url": "/fortunes",
                 "db_url": "/db",
-                "query_url": "/queries?queries=",
-                "update_url": "/updates?queries=",
+                "query_url": "/api/queries?queries=",
+                "update_url": "/api/updates?queries=",
                 "port": 8080,
                 "approach": "Realistic",
-                "classification": "Micro",
+                "classification": "Fullstack",
                 "database": "Postgres",
                 "framework": "Radiance",
                 "language": "Lisp",
