@@ -1,6 +1,7 @@
 dist shirakumo http://dist.tymoon.eu/shirakumo.txt
 ql jonathan :latest
 ql postmodern :latest
+ql verbose :latest
 ql woo :latest
 shirakumo radiance :latest
 shirakumo radiance-contribs :latest

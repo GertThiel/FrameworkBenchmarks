@@ -10,8 +10,8 @@
 (unless *load-pathname*
   (error "Please LOAD this file."))
 
-(when (find-package :quicklisp)
-  (error "You must LOAD this file outside of your usual Quicklisp setup."))
+;; (when (find-package :quicklisp)
+;;   (error "You must LOAD this file outside of your usual Quicklisp setup."))
 
 ;;; Find yourself.
 (defpackage #:rad-bootstrap
@@ -24,13 +24,13 @@
   (merge-pathnames pathname *root*))
 
 ;;; Load Quicklisp and configure it.
-(load (path "quicklisp/setup.lisp"))
+;; (load (path "quicklisp/setup.lisp"))
 (push (path "modules/") ql:*local-project-directories*)
 (ql:register-local-projects)
 
 ;;; Load Radiance and configure it.
 (ql:quickload '(#-sbcl prepl
-                radiance))
+                postmodern radiance))
 
 (defmethod radiance:environment-directory (environment (kind (eql :configuration)))
   (rad-bootstrap:path (make-pathname :directory `(:relative "config" ,environment))))
@@ -47,7 +47,8 @@
 (defmethod radiance:environment-directory (environment (kind (eql :static)))
   (rad-bootstrap:path (make-pathname :directory `(:relative "override" ,environment "static"))))
 
-(radiance:startup)
+(postmodern:with-connection '("hello_world" "benchmarkdbuser" "benchmarkdbpass" "tfb-database")
+  (radiance:startup "tfb"))
 
 ;;; Load all user modules and things.
 (mapcar #'ql:quickload
@@ -55,12 +56,12 @@
 (load (rad-bootstrap:path "setup.lisp"))
 
 ;;; Boot to REPL.
-(sleep 1)
-(in-package #:rad-user)
-(unwind-protect
-     (progn
-       #-sbcl (prepl:repl)
-       #+sbcl (sb-ext:enable-debugger)
-       #+sbcl (sb-impl::toplevel-init))
-  (when (radiance:started-p)
-    (radiance:shutdown)))
+;; (sleep 1)
+;; (in-package #:rad-user)
+;; (unwind-protect
+;;      (progn
+;;        #-sbcl (prepl:repl)
+;;        #+sbcl (sb-ext:enable-debugger)
+;;        #+sbcl (sb-impl::toplevel-init))
+;;   (when (radiance:started-p)
+;;     (radiance:shutdown)))
